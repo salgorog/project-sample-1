@@ -27,6 +27,7 @@ body {
     color: $default-font-color;
     width: 100%;
     min-height: 100%;
+
     @include mq(768px) {
         font-size: 22px;
     }
