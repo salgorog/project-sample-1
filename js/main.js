@@ -42,7 +42,7 @@ const loadListObject = () => {
     const storedList = localStorage.getItem("myToDoList");
     if (typeof storedList !== "string") return;
     const parsedList = JSON.parse(storedList);
-    parsedList.forEach(itemObj => {
+    parsedList.forEach((itemObj) => {
         const newToDoItem = createNewItem(itemObj._id, itemObj._item);
         toDoList.addItemToList(newToDoItem);
     })
@@ -70,7 +70,7 @@ const deleteContents = (parentElement) => {
 
 const renderList = () => {
     const list = toDoList.getList();
-    list.forEach(item => {
+    list.forEach((item) => {
         buildListItem(item);
     });
 };
@@ -96,11 +96,17 @@ const addClickListenerToCheckbox = (checkbox) => {
     checkbox.addEventListener("click", (event) => {
         toDoList.removeItemFromList(checkbox.id);
         updatePersistentData(toDoList.getList());
+        const removedText = getLabeltext(checkbox.id);
+        updateScreenReaderConfirmation(removedText, "removed from list");
         setTimeout(() => {
             refreshThePage();
         }, 1000);
     });
 };
+
+const getLabeltext = (checkboxId) => {
+    return document.getElementById(checkboxId).nextElementSibling.textContent;
+}
 
 const updatePersistentData = (listArray) => {
     localStorage.setItem("myToDoList", JSON.stringify(listArray));
@@ -121,6 +127,7 @@ const processSubmission = () => {
     const toDoItem = createNewItem(nextItemId, newEntryText);
     toDoList.addItemToList(toDoItem);
     updatePersistentData(toDoList.getList());
+    updateScreenReaderConfirmation(newEntryText, "added");
     refreshThePage();
 };
 
@@ -142,4 +149,8 @@ const createNewItem = (itemId, itemText) => {
     toDo.setId(itemId);
     toDo.setItem(itemText);
     return toDo;
-}
+};
+
+const updateScreenReaderConfirmation = (newEntryText, actionVerb) => {
+    document.getElementById("confirmation").textContent = `${newEntryText} ${actionVerb}.`;
+};
