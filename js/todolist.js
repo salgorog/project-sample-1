@@ -8,7 +8,7 @@ export default class ToDoList {
     }
 
     clearList() {
-        this.list = [];
+        this._list = [];
     }
 
     addItemToList(itemObj) {

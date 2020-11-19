@@ -26,7 +26,9 @@ const initApp = () => {
                 "Are you sure you want to clear the entire list?"
             );
             if (confirmed) {
+                console.log(new Array(1, 2, 3));
                 toDoList.clearList();
+                console.log(toDoList._list);
                 updatePersistentData(toDoList.getList());
                 refreshThePage();
             }
@@ -61,6 +63,7 @@ const clearListDisplay = () => {
 };
 
 const deleteContents = (parentElement) => {
+    console.log('this line')
     let child = parentElement.lastElementChild;
     while (child) {
         parentElement.removeChild(child);
